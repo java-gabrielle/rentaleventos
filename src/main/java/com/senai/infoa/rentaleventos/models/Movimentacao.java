@@ -1,8 +1,9 @@
 package com.senai.infoa.rentaleventos.models;
 
-import java.security.Timestamp;
+
 import java.time.LocalDateTime;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public class Movimentacao {
 
 
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="usuario_id")
     private Usuario usuario;
 

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.senai.infoa.rentaleventos.models.Movimentacao;
-import com.senai.infoa.rentaleventos.models.Usuario;
 import com.senai.infoa.rentaleventos.services.MovimentacaoService;
 
 @RestController

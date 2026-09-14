@@ -8,19 +8,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.senai.infoa.rentaleventos.models.Movimentacao;
+import com.senai.infoa.rentaleventos.models.Usuario;
 import com.senai.infoa.rentaleventos.repositories.MovimentacaoRepository;
+import com.senai.infoa.rentaleventos.repositories.UsuarioRepository;
 @Service
 public class MovimentacaoService {
 
     @Autowired
     private MovimentacaoRepository ur;
 
-    public Movimentacao salvar(Movimentacao movimentacao){
-        if(movimentacao != null) {
-        return ur.save(movimentacao);
-        }
-        return null;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    public Movimentacao salvar(Movimentacao movimentacao) {
+    // 1. Verifica se o objeto usuario e o ID foram enviados
+    if (movimentacao.getUsuario() == null || movimentacao.getUsuario().getId() == null) {
+        throw new IllegalArgumentException("O ID do usuário é obrigatório.");
     }
+
+    // 2. Busca o usuário no banco
+    Usuario usuarioExistente = usuarioRepository.findById(movimentacao.getUsuario().getId())
+        .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+    // 3. Vincula o usuário e salva
+    movimentacao.setUsuario(usuarioExistente);
+    return ur.save(movimentacao);
+}
 
     public Movimentacao atualizar(Movimentacao movimentacao, Integer id) {
     // 1. Busca no banco pelo ID (Integer)
